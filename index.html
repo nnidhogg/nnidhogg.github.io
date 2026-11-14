@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nicklas Nidhögg</title>
+<meta name="description" content="Nicklas Nidhögg: research on automata, maximal-munch lexing and tokenization, with the C++ libraries munch, matisse and hopper.">
+<link rel="canonical" href="https://nidhogg.se/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nidhogg.se/">
+<meta property="og:title" content="Nicklas Nidhögg">
+<meta property="og:description" content="Research on automata, maximal-munch lexing and tokenization, with the C++ libraries munch, matisse and hopper.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%232f5d8a%27/%3E%3Ctext x=%2732%27 y=%2745%27 font-family=%27Georgia,serif%27 font-size=%2738%27 text-anchor=%27middle%27 fill=%27white%27%3EN%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #fbfaf7; --fg: #1f2328; --muted: #5d636b; --rule: #d9d6cf; --accent: #2f5d8a; --code: #f1efe9;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #111214; --fg: #f4f5f7; --muted: #c0c5cc; --rule: #33363c; --accent: #9cc2ec; --code: #202328; }
+}
+:root[data-theme="dark"] { --bg: #111214; --fg: #f4f5f7; --muted: #c0c5cc; --rule: #33363c; --accent: #9cc2ec; --code: #202328; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 Georgia, "Times New Roman", serif; }
+main { max-width: 44rem; margin: 0 auto; padding: 3rem 16px 4rem; }
+h1 { font-size: 2rem; margin: 0 0 .3rem; }
+h2 { font-size: 1.2rem; margin: 2.5rem 0 .6rem; padding-bottom: .25rem; border-bottom: 1px solid var(--rule); }
+p { margin: .7rem 0; }
+a { color: var(--accent); }
+.lede { color: var(--muted); margin-top: 0; }
+ul.list { list-style: none; padding: 0; margin: 0; }
+ul.list li { margin: 0 0 1rem; }
+.meta { display: block; color: var(--muted); font-size: .92rem; }
+.links a { margin-right: 1rem; white-space: nowrap; }
+.interests { font-style: italic; color: var(--muted); margin-top: -.3rem; }
+.links { display: block; font-size: .92rem; }
+.links a { margin-right: .9rem; }
+details { margin-top: .25rem; font-size: .9rem; }
+details summary { cursor: pointer; color: var(--accent); }
+pre { background: var(--code); padding: .6rem .8rem; border-radius: 6px; overflow-x: auto; font-size: .82rem; line-height: 1.4; }
+.theme { position: absolute; top: 1rem; right: 16px; font: inherit; font-size: .85rem; color: var(--accent);
+  background: transparent; border: 1px solid var(--rule); border-radius: 4px; padding: .2rem .6rem; cursor: pointer; }
+main { position: relative; }
+footer { margin-top: 3rem; padding-top: .75rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+<button class="theme" id="theme" type="button">theme</button>
+
+<h1>Nicklas Nidhögg</h1>
+<p class="lede">Independent researcher, Sweden</p>
+<p class="interests">Automata theory, formal languages, lexing and tokenization, parallel scanning</p>
+
+<p>I work on where lexers and tokenizers can cut text. A lexer that scans its input in parallel needs cuts it can trust:
+single bytes where every occurrence begins a token, exactly or once comments and whitespace are discarded, and short
+windows that fix where a token began when no single byte does. The same certificates choose where a failed scan resumes,
+so that error recovery lands where every repair of the input places a token boundary. Certification is decided from the
+token set alone, for maximal-munch scanners and for every tokenizer whose segmentations a finite automaton can verify,
+and it supplies the anchors for cutting, editing and auditing. For byte-pair encoding I decide, for every dictionary,
+how far text prepended on the left can change a tokenization, and when that ripple has no bound.</p>
+
+<p class="links">
+  <a href="https://orcid.org/0009-0006-6161-6150">ORCID</a>
+  <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Nidh%C3%B6gg,+N">arXiv</a>
+  <a href="https://scholar.google.com/citations?user=Beo0KB8AAAAJ">Google Scholar</a>
+  <a href="https://github.com/nnidhogg">GitHub</a>
+</p>
+
+<h2>Papers</h2>
+<ul class="list">
+  <li>
+    <a href="https://arxiv.org/abs/2611.13061">The Left Ripple of Byte-Pair Encoding: Certified Lookbehind for Every Dictionary</a>
+    <span class="meta">arXiv:2611.13061, November 2026</span>
+    <span class="links"><a href="https://arxiv.org/abs/2611.13061">abstract</a> <a href="https://arxiv.org/pdf/2611.13061">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/bpe-left-ripple">source</a></span>
+    <details><summary>BibTeX</summary><pre>@misc{nidhogg2026leftripple,
+  author        = {Nicklas Nidh{\"o}gg},
+  title         = {The Left Ripple of Byte-Pair Encoding: Certified Lookbehind for Every Dictionary},
+  year          = {2026},
+  eprint        = {2611.13061},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.FL}
+}</pre></details>
+  </li>
+  <li>
+    <a href="https://arxiv.org/abs/2610.30168">Finitely Verifiable Segmentation: Decidability for Every Tokenizer with a Finite-State Verifier</a>
+    <span class="meta">arXiv:2610.30168, October 2026</span>
+    <span class="links"><a href="https://arxiv.org/abs/2610.30168">abstract</a> <a href="https://arxiv.org/pdf/2610.30168">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/finitely-verifiable">source</a></span>
+    <details><summary>BibTeX</summary><pre>@misc{nidhogg2026verifiable,
+  author        = {Nicklas Nidh{\"o}gg},
+  title         = {Finitely Verifiable Segmentation: Decidability for Every Tokenizer with a Finite-State Verifier},
+  year          = {2026},
+  eprint        = {2610.30168},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.FL}
+}</pre></details>
+  </li>
+  <li>
+    <a href="https://arxiv.org/abs/2610.08854">Certified Splitting: Decidability and Anchor Supply for Maximal-Munch Tokenization</a>
+    <span class="meta">arXiv:2610.08854, October 2026</span>
+    <span class="links"><a href="https://arxiv.org/abs/2610.08854">abstract</a> <a href="https://arxiv.org/pdf/2610.08854">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/certified-splitting">source</a></span>
+    <details><summary>BibTeX</summary><pre>@misc{nidhogg2026splitting,
+  author        = {Nicklas Nidh{\"o}gg},
+  title         = {Certified Splitting: Decidability and Anchor Supply for Maximal-Munch Tokenization},
+  year          = {2026},
+  eprint        = {2610.08854},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.FL}
+}</pre></details>
+  </li>
+  <li>
+    <a href="https://arxiv.org/abs/2609.10600">Certified Panic Mode: Repair-Invariant Error Recovery for Maximal-Munch Lexing</a>
+    <span class="meta">arXiv:2609.10600, September 2026</span>
+    <span class="links"><a href="https://arxiv.org/abs/2609.10600">abstract</a> <a href="https://arxiv.org/pdf/2609.10600">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/panic-mode">source</a></span>
+    <details><summary>BibTeX</summary><pre>@misc{nidhogg2026panicmode,
+  author        = {Nicklas Nidh{\"o}gg},
+  title         = {Certified Panic Mode: Repair-Invariant Error Recovery for Maximal-Munch Lexing},
+  year          = {2026},
+  eprint        = {2609.10600},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.PL}
+}</pre></details>
+  </li>
+  <li>
+    <a href="https://arxiv.org/abs/2608.09761">Certified Split Windows for Parallel Lexing: Recovering Boundaries Where No Byte Certifies</a>
+    <span class="meta">arXiv:2608.09761, August 2026</span>
+    <span class="links"><a href="https://arxiv.org/abs/2608.09761">abstract</a> <a href="https://arxiv.org/pdf/2608.09761">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/split-windows">source</a></span>
+    <details><summary>BibTeX</summary><pre>@misc{nidhogg2026splitwindows,
+  author        = {Nicklas Nidh{\"o}gg},
+  title         = {Certified Split Windows for Parallel Lexing: Recovering Boundaries Where No Byte Certifies},
+  year          = {2026},
+  eprint        = {2608.09761},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.FL}
+}</pre></details>
+  </li>
+  <li>
+    <a href="https://arxiv.org/abs/2608.03473">Certified Split Points for Parallel Lexing: Exact and Modulo Discarded Tokens</a>
+    <span class="meta">arXiv:2608.03473, August 2026</span>
+    <span class="links"><a href="https://arxiv.org/abs/2608.03473">abstract</a> <a href="https://arxiv.org/pdf/2608.03473">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/split-points">source</a></span>
+    <details><summary>BibTeX</summary><pre>@misc{nidhogg2026splitpoints,
+  author        = {Nicklas Nidh{\"o}gg},
+  title         = {Certified Split Points for Parallel Lexing: Exact and Modulo Discarded Tokens},
+  year          = {2026},
+  eprint        = {2608.03473},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.FL}
+}</pre></details>
+  </li>
+</ul>
+
+<h2>Software</h2>
+<ul class="list">
+  <li>
+    <a href="https://github.com/nnidhogg/munch">munch</a>
+    <span class="meta">A C++23 library that compiles regular token sets into maximal-munch lexers and decides questions
+    about how they segment their input. <a href="https://doi.org/10.5281/zenodo.21752996">doi:10.5281/zenodo.21752996</a></span>
+  </li>
+  <li>
+    <a href="https://github.com/nnidhogg/matisse">matisse</a>
+    <span class="meta">A C++23 library that reads a real tokenizer's definition, decides where its output can be cut with
+    certainty, and encodes text in parallel with ids identical to the sequential encoding.
+    <a href="https://doi.org/10.5281/zenodo.23782291">doi:10.5281/zenodo.23782291</a></span>
+  </li>
+  <li>
+    <a href="https://github.com/nnidhogg/hopper">hopper</a>
+    <span class="meta">A C++23 library for recursive-descent parsers on top of munch lexers.
+    <a href="https://doi.org/10.5281/zenodo.22998777">doi:10.5281/zenodo.22998777</a></span>
+  </li>
+</ul>
+
+<footer>Nicklas Nidhögg. Last updated 15 November 2026.</footer>
+
+</main>
+<script>
+(function () {
+  var root = document.documentElement, btn = document.getElementById('theme');
+  try { var saved = localStorage.getItem('theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+  btn.addEventListener('click', function () {
+    var dark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+})();
+</script>
+</body>
+</html>
