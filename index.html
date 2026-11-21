@@ -63,13 +63,13 @@ footer { margin-top: 3rem; padding-top: .75rem; border-top: 1px solid var(--rule
 <p class="degree">Master of Science in Engineering, Computer Science and Engineering, Lund University</p>
 <p class="interests">Automata theory, formal languages, lexing and tokenization, parallel scanning</p>
 
-<p>I work on where lexers and tokenizers can cut text. A lexer that scans its input in parallel needs cuts it can trust:
-single bytes where every occurrence begins a token, exactly or once comments and whitespace are discarded, and short
-windows that fix where a token began when no single byte does. The same certificates choose where a failed scan resumes,
-so that error recovery lands where every repair of the input places a token boundary. Certification is decided from the
-token set alone, for maximal-munch scanners and for every tokenizer whose segmentations a finite automaton can verify,
-and it supplies the anchors for cutting, editing and auditing. For byte-pair encoding I decide, for every dictionary,
-how far text prepended on the left can change a tokenization, and when that ripple has no bound.</p>
+<p>I work on where lexers and tokenizers can safely cut text. A lexer that scans its input in parallel splits it into
+pieces, and each piece needs a trustworthy starting point: a byte that always begins a token, or, where no single byte
+does, a short window of text that settles where the token began. I show how to find such points from the token set
+alone, both for classical maximal-munch lexers and for language-model tokenizers such as byte-pair encoding and
+WordPiece. The same points tell a lexer where to resume after an error, and anchor incremental editing and auditing.
+For byte-pair encoding, I determine, for any dictionary, the ripple effect when text is prepended on the left: how far
+into the text the tokens can change, and when there is no limit.</p>
 
 <p class="links">
   <a href="https://orcid.org/0009-0006-6161-6150">ORCID</a>
