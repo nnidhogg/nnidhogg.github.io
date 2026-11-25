@@ -31,6 +31,7 @@ a { color: var(--accent); }
 ul.list { list-style: none; padding: 0; margin: 0; }
 ul.list li { margin: 0 0 1rem; }
 .meta { display: block; color: var(--muted); font-size: .92rem; }
+.desc { display: block; margin: .15rem 0 .1rem; }
 .links a { margin-right: 1rem; white-space: nowrap; }
 .interests { font-style: italic; color: var(--muted); margin-top: 0; }
 .links { display: block; font-size: .92rem; }
@@ -38,6 +39,11 @@ ul.list li { margin: 0 0 1rem; }
 details { margin-top: .25rem; font-size: .9rem; }
 details summary { cursor: pointer; color: var(--accent); }
 pre { background: var(--code); padding: .6rem .8rem; border-radius: 6px; overflow-x: auto; font-size: .82rem; line-height: 1.4; }
+pre.console { background: #1d1f23; color: #e8eaed; font-size: .9rem; border: 1px solid var(--rule); max-width: 32rem; }
+pre.console code::before { content: "$ "; color: #8fbf7f; user-select: none; }
+ul.guide { padding-left: 1.4rem; }
+ul.guide li { margin: 0 0 .5rem; }
+ul.guide pre.console { margin: .4rem 0 0; }
 .theme { position: absolute; top: 1rem; right: 16px; font: inherit; font-size: .85rem; color: var(--accent);
   background: transparent; border: 1px solid var(--rule); border-radius: 4px; padding: .2rem .6rem; cursor: pointer; }
 main { position: relative; }
@@ -78,6 +84,17 @@ into the text the tokens can change, and when there is no limit.</p>
   <a href="https://github.com/nnidhogg">GitHub</a>
 </p>
 
+<h2>Where to begin</h2>
+<ul class="guide">
+  <li>Readers new to the subject can begin with <a href="#split-points">Certified Split Points</a>, which presents the
+  idea in its simplest form.</li>
+  <li>For the theory, <a href="#finitely-verifiable">Finitely Verifiable Segmentation</a> gives the general framework,
+  and <a href="#bpe-left-ripple">The Left Ripple of Byte-Pair Encoding</a> answers two published open questions.</li>
+  <li>For building tokenizers, the library <a href="#matisse">matisse</a> is a tiktoken-compatible tokenizer that
+  encodes in parallel and as a stream with ids identical to tiktoken's. The Python package matisse-tokenizer is
+  published on <a href="https://pypi.org/project/matisse-tokenizer/">PyPI</a> and installs with:
+  <pre class="console"><code>pip install matisse-tokenizer</code></pre></li>
+</ul>
 <h2>Papers</h2>
 <figure class="map">
 <svg viewBox="0 0 340 262" role="img" aria-labelledby="map-t map-d">
@@ -112,8 +129,10 @@ right. An arrow points from a paper to a later one that builds directly on it; o
 paper also draws on the earlier ones through them.</figcaption>
 </figure>
 <ul class="list">
-  <li>
+  <li id="split-points">
     <a href="https://arxiv.org/abs/2608.03473">Certified Split Points for Parallel Lexing: Exact and Modulo Discarded Tokens</a>
+    <span class="desc">Finds the bytes at which a lexer can cut its input and scan the pieces in parallel with the serial token stream
+    preserved, exactly or once comments and whitespace are discarded.</span>
     <span class="meta">arXiv:2608.03473, August 2026</span>
     <span class="links"><a href="https://arxiv.org/abs/2608.03473">abstract</a> <a href="https://arxiv.org/pdf/2608.03473">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/split-points">source</a></span>
     <details><summary>BibTeX</summary><pre>@misc{nidhogg2026splitpoints,
@@ -125,8 +144,10 @@ paper also draws on the earlier ones through them.</figcaption>
   primaryClass  = {cs.FL}
 }</pre></details>
   </li>
-  <li>
+  <li id="split-windows">
     <a href="https://arxiv.org/abs/2608.09761">Certified Split Windows for Parallel Lexing: Recovering Boundaries Where No Byte Certifies</a>
+    <span class="desc">Widens the byte to a bounded window of text that fixes where the token covering its last byte began, and so
+    recovers boundaries where no byte certifies.</span>
     <span class="meta">arXiv:2608.09761, August 2026</span>
     <span class="links"><a href="https://arxiv.org/abs/2608.09761">abstract</a> <a href="https://arxiv.org/pdf/2608.09761">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/split-windows">source</a></span>
     <details><summary>BibTeX</summary><pre>@misc{nidhogg2026splitwindows,
@@ -138,10 +159,12 @@ paper also draws on the earlier ones through them.</figcaption>
   primaryClass  = {cs.FL}
 }</pre></details>
   </li>
-  <li>
+  <li id="panic-mode">
     <a href="https://arxiv.org/abs/2609.10600">Certified Panic Mode: Repair-Invariant Error Recovery for Maximal-Munch Lexing</a>
+    <span class="desc">Uses these certificates to choose where a failed scan resumes, at a position where every prefix repair whose
+    scan commits through the certificate's evidence places a token boundary.</span>
     <span class="meta">arXiv:2609.10600, September 2026</span>
-    <span class="links"><a href="https://arxiv.org/abs/2609.10600">abstract</a> <a href="https://arxiv.org/pdf/2609.10600">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/panic-mode">source</a></span>
+    <span class="links"><a href="https://arxiv.org/abs/2609.10600">abstract</a> <a href="https://arxiv.org/pdf/2609.10600">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/panic-mode">source</a> <a href="https://doi.org/10.5281/zenodo.22178506">archive</a></span>
     <details><summary>BibTeX</summary><pre>@misc{nidhogg2026panicmode,
   author        = {Nicklas Nidh{\"o}gg},
   title         = {Certified Panic Mode: Repair-Invariant Error Recovery for Maximal-Munch Lexing},
@@ -151,10 +174,13 @@ paper also draws on the earlier ones through them.</figcaption>
   primaryClass  = {cs.PL}
 }</pre></details>
   </li>
-  <li>
+  <li id="certified-splitting">
     <a href="https://arxiv.org/abs/2610.08854">Certified Splitting: Decidability and Anchor Supply for Maximal-Munch Tokenization</a>
+    <span class="desc">Decides the window certificates from the token set alone, for any regular token set, and shows that pieces cut
+    at their anchors and scanned independently reproduce the sequential segmentation, with uses in editing and
+    auditing.</span>
     <span class="meta">arXiv:2610.08854, October 2026</span>
-    <span class="links"><a href="https://arxiv.org/abs/2610.08854">abstract</a> <a href="https://arxiv.org/pdf/2610.08854">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/certified-splitting">source</a></span>
+    <span class="links"><a href="https://arxiv.org/abs/2610.08854">abstract</a> <a href="https://arxiv.org/pdf/2610.08854">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/certified-splitting">source</a> <a href="https://doi.org/10.5281/zenodo.22994323">archive</a></span>
     <details><summary>BibTeX</summary><pre>@misc{nidhogg2026splitting,
   author        = {Nicklas Nidh{\"o}gg},
   title         = {Certified Splitting: Decidability and Anchor Supply for Maximal-Munch Tokenization},
@@ -164,10 +190,12 @@ paper also draws on the earlier ones through them.</figcaption>
   primaryClass  = {cs.FL}
 }</pre></details>
   </li>
-  <li>
+  <li id="finitely-verifiable">
     <a href="https://arxiv.org/abs/2610.30168">Finitely Verifiable Segmentation: Decidability for Every Tokenizer with a Finite-State Verifier</a>
+    <span class="desc">Decides certified windows and five related questions for every tokenizer whose segmentations a finite automaton
+    can verify, maximal-munch lexing, canonical byte-pair encoding and WordPiece among them.</span>
     <span class="meta">arXiv:2610.30168, October 2026</span>
-    <span class="links"><a href="https://arxiv.org/abs/2610.30168">abstract</a> <a href="https://arxiv.org/pdf/2610.30168">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/finitely-verifiable">source</a></span>
+    <span class="links"><a href="https://arxiv.org/abs/2610.30168">abstract</a> <a href="https://arxiv.org/pdf/2610.30168">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/finitely-verifiable">source</a> <a href="https://doi.org/10.5281/zenodo.22994410">archive</a></span>
     <details><summary>BibTeX</summary><pre>@misc{nidhogg2026verifiable,
   author        = {Nicklas Nidh{\"o}gg},
   title         = {Finitely Verifiable Segmentation: Decidability for Every Tokenizer with a Finite-State Verifier},
@@ -177,10 +205,12 @@ paper also draws on the earlier ones through them.</figcaption>
   primaryClass  = {cs.FL}
 }</pre></details>
   </li>
-  <li>
+  <li id="bpe-left-ripple">
     <a href="https://arxiv.org/abs/2611.13061">The Left Ripple of Byte-Pair Encoding: Certified Lookbehind for Every Dictionary</a>
+    <span class="desc">Decides for every dictionary how far text prepended on the left can change a tokenization and when there is no
+    bound, and gives a streaming tokenizer that emits each token as soon as no continuation can change it.</span>
     <span class="meta">arXiv:2611.13061, November 2026</span>
-    <span class="links"><a href="https://arxiv.org/abs/2611.13061">abstract</a> <a href="https://arxiv.org/pdf/2611.13061">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/bpe-left-ripple">source</a></span>
+    <span class="links"><a href="https://arxiv.org/abs/2611.13061">abstract</a> <a href="https://arxiv.org/pdf/2611.13061">PDF</a> <a href="https://github.com/nnidhogg/munch/tree/master/paper/bpe-left-ripple">source</a> <a href="https://doi.org/10.5281/zenodo.23988870">archive</a></span>
     <details><summary>BibTeX</summary><pre>@misc{nidhogg2026leftripple,
   author        = {Nicklas Nidh{\"o}gg},
   title         = {The Left Ripple of Byte-Pair Encoding: Certified Lookbehind for Every Dictionary},
@@ -193,12 +223,14 @@ paper also draws on the earlier ones through them.</figcaption>
 </ul>
 
 <h2>Software</h2>
-<p class="meta">The DOIs cover every release; each release also has its own DOI on Zenodo for citing an exact version.</p>
+<p class="meta">Each archive gathers the library's releases on Zenodo, and its DOI is the one in the BibTeX. Each
+release there also has its own DOI, for citing an exact version.</p>
 <ul class="list">
   <li>
     <a href="https://github.com/nnidhogg/munch">munch</a>
-    <span class="meta">A C++23 library that compiles regular token sets into maximal-munch lexers and decides questions
-    about how they segment their input. <a href="https://doi.org/10.5281/zenodo.21752996">doi:10.5281/zenodo.21752996</a></span>
+    <span class="desc">A C++23 library that compiles regular token sets into maximal-munch lexers and decides questions
+    about how they segment their input.</span>
+    <span class="links"><a href="https://github.com/nnidhogg/munch">source</a> <a href="https://doi.org/10.5281/zenodo.21752996">archive</a></span>
     <details><summary>BibTeX</summary><pre>@misc{nidhogg2026munch,
   author       = {Nicklas Nidh{\"o}gg},
   title        = {munch: a lexical analysis library based on automata theory},
@@ -207,11 +239,12 @@ paper also draws on the earlier ones through them.</figcaption>
   doi          = {10.5281/zenodo.21752996}
 }</pre></details>
   </li>
-  <li>
+  <li id="matisse">
     <a href="https://github.com/nnidhogg/matisse">matisse</a>
-    <span class="meta">A C++23 library that reads a real tokenizer's definition, decides where its output can be cut with
-    certainty, and encodes text in parallel with ids identical to the sequential encoding.
-    <a href="https://doi.org/10.5281/zenodo.23782291">doi:10.5281/zenodo.23782291</a></span>
+    <span class="desc">A C++23 library that reads a real tokenizer's definition, decides where its output can be cut with
+    certainty, and encodes text in parallel with ids identical to the sequential encoding. The Python package
+    matisse-tokenizer serves tiktoken's interface with tiktoken's ids for GPT-2, cl100k_base, o200k_base and Llama 3.</span>
+    <span class="links"><a href="https://github.com/nnidhogg/matisse">source</a> <a href="https://doi.org/10.5281/zenodo.23782291">archive</a> <a href="https://pypi.org/project/matisse-tokenizer/">PyPI</a></span>
     <details><summary>BibTeX</summary><pre>@misc{nidhogg2026matisse,
   author       = {Nicklas Nidh{\"o}gg},
   title        = {matisse: a {C++23} library for exact parallel encoding with real tokenizers},
@@ -222,8 +255,8 @@ paper also draws on the earlier ones through them.</figcaption>
   </li>
   <li>
     <a href="https://github.com/nnidhogg/hopper">hopper</a>
-    <span class="meta">A C++23 library for recursive-descent parsers on top of munch lexers.
-    <a href="https://doi.org/10.5281/zenodo.22998777">doi:10.5281/zenodo.22998777</a></span>
+    <span class="desc">A C++23 library for recursive-descent parsers on top of munch lexers.</span>
+    <span class="links"><a href="https://github.com/nnidhogg/hopper">source</a> <a href="https://doi.org/10.5281/zenodo.22998777">archive</a></span>
     <details><summary>BibTeX</summary><pre>@misc{nidhogg2026hopper,
   author       = {Nicklas Nidh{\"o}gg},
   title        = {hopper: a {C++23} library for building recursive-descent parsers on top of munch lexers},
@@ -234,7 +267,7 @@ paper also draws on the earlier ones through them.</figcaption>
   </li>
 </ul>
 
-<footer>Nicklas Nidhögg. Last updated 20 November 2026.</footer>
+<footer>Nicklas Nidhögg. Last updated 25 November 2026.</footer>
 
 </main>
 <script>
